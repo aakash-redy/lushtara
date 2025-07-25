@@ -1,5 +1,5 @@
-# lushtara
-# Lashtára
+# Lushtara
+# Lushtára
 
 Lashtára is an AI-integrated food translation and recommendation system designed to assist travelers in navigating unfamiliar culinary environments. The application analyzes physical menus and uses user-defined preferences to generate ranked food suggestions based on a proprietary scoring system.
 

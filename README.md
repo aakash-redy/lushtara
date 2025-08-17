@@ -1,7 +1,7 @@
 # Lushtára 🍽️
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/Syntax-Overlord/lushtara)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/aakash-redy/lushtara)
 
 **Lushtára** is an AI-powered food translation and recommendation system that helps travelers navigate unfamiliar culinary environments with confidence. Using advanced computer vision and emotional intelligence algorithms, Lushtára transforms menu photos into personalized dining recommendations.
 

@@ -51,112 +51,129 @@ For collaboration, technical queries, or documentation access, reach out via the
 
 
 ---
-import java.util.*;
+# Lushtára: Emotional Food Translator with Cravin Scale Sorting
 
-public class LashtaraCore {
 
-    static class Food {
-        String name, taste, texture, temp, mood, portion;
-        int price;
-        int cravins = 0;
 
-        Food(String name, String taste, String texture, String temp, String mood, int price, String portion) {
-            this.name = name;
-            this.taste = taste;
-            this.texture = texture;
-            this.temp = temp;
-            this.mood = mood;
-            this.price = price;
-            this.portion = portion;
-        }
-    }
+## Overview
 
-    static List<String> cravingMemory = new ArrayList<>();
+Lushtára is an image-assisted AI model that decodes emotional food preferences and translates them into ranked menu recommendations. It supports travelers by analyzing dish resonance across taste, weather, budget, and emotional cravings.
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
-        // 🔘 Dish Pool
-        List<Food> pool = new ArrayList<>(List.of(
-                new Food("Cone Ice Cream", "sweet", "crunchy", "cold", "celebration", 45, "small"),
-                new Food("Samosa", "spicy", "crunchy", "hot", "comfort", 25, "small"),
-                new Food("Pulihora", "tangy", "soft", "mid", "stress", 30, "medium"),
-                new Food("Gulab Jamun", "sweet", "soft", "hot", "comfort", 40, "small"),
-                new Food("Dhokla", "savory", "soft", "mid", "celebration", 35, "medium"),
-                new Food("Fruit Salad", "sweet", "soft", "cold", "stress", 30, "medium")
-        ));
 
-        // 🎭 Craving Input Ritual
-        Map<String, Integer> moodMap = Map.of("comfort", 1, "celebration", 2, "stress", 3);
-        Map<String, Integer> tasteMap = Map.of("sweet", 1, "spicy", 2, "tangy", 3, "savory", 4);
-        Map<String, Integer> textureMap = Map.of("crunchy", 1, "soft", 2);
-        Map<String, Integer> tempMap = Map.of("cold", 1, "mid", 2, "hot", 3);
-        Map<String, Integer> portionMap = Map.of("small", 1, "medium", 2, "large", 3);
+## Functional Scope
 
-        System.out.println("\n🌿 Enter your craving inputs:");
+- Accepts a menu image
 
-        System.out.println("Select Mood:\n1. comfort\n2. celebration\n3. stress");
-        int moodInput = scanner.nextInt();
+- Requests 5 preferences:
 
-        System.out.println("Select Taste:\n1. sweet\n2. spicy\n3. tangy\n4. savory");
-        int tasteInput = scanner.nextInt();
+  - **Taste profile**
 
-        System.out.println("Select Texture:\n1. crunchy\n2. soft");
-        int textureInput = scanner.nextInt();
+  - **Temperature**
 
-        System.out.println("Select Temperature:\n1. cold\n2. mid\n3. hot");
-        int tempInput = scanner.nextInt();
+  - **Budget**
 
-        System.out.println("Select Portion Size:\n1. small\n2. medium\n3. large");
-        int portionInput = scanner.nextInt();
+  - **Weather**
 
-        System.out.print("Budget in ₹: ");
-        int budget = scanner.nextInt();
+  - **Portion size**
 
-        String question = String.format(
-                "Which dish matches Mood %d, Taste %d, Texture %d, Temperature %d, Portion %d under ₹%d?",
-                moodInput, tasteInput, textureInput, tempInput, portionInput, budget
-        );
+- Transforms preferences into internal query logic
 
-        cravingMemory.add(question);
-        System.out.println("\n🌀 Lashtára Asks: " + question);
+- Assigns **Cravin Ratings** on a scale from **1 to 11**, where:
 
-        // 🧮 Cravins Calculation
-        for (Food f : pool) {
-            int mismatch = 0;
-            mismatch += Math.abs(moodInput - moodMap.get(f.mood));
-            mismatch += Math.abs(tasteInput - tasteMap.get(f.taste));
-            mismatch += Math.abs(textureInput - textureMap.get(f.texture));
-            mismatch += Math.abs(tempInput - tempMap.get(f.temp));
-            mismatch += Math.abs(portionInput - portionMap.get(f.portion));
-            mismatch += f.price > budget ? 2 : 0;
+  - **10 = highest craving**
 
-            f.cravins = 25 - mismatch; // Scale of resonance
-        }
+  - **11 = lowest craving**
 
-        pool.sort((a, b) -> b.cravins - a.cravins);
+- Sorts all menu items in **descending order of Cravin Ratings**
 
-        boolean hasSuggestion = false;
-        System.out.println("\n🌸 Cravins Recommendations:");
-        for (Food f : pool) {
-            if (f.cravins >= 18) {
-                hasSuggestion = true;
-                System.out.printf("» %s 💫 Cravins: %d\n   (%s, %s-textured, %s temp, ₹%d, %s portion)\n\n",
-                        f.name, f.cravins, f.taste, f.texture, f.temp, f.price, f.portion);
-            }
-        }
+- Justifies top recommendation with emotional reasoning
 
-        if (!hasSuggestion) {
-            System.out.println("\n😔 No highly resonant matches. Try adjusting inputs.");
-        }
 
-        System.out.println("\n📜 Craving Log:");
-        for (String log : cravingMemory) {
-            System.out.println("• " + log);
-        }
 
-        System.out.println("\n🔮 May Lashtára's Cravins Engine refine hunger with soul.");
-    }
-}
+## Prompt Instruction Schema
 
+
+
+### ## Context
+
+You are Lushtára, a sovereign emotional translator guiding travelers to emotionally resonant food decisions based on personal craving indicators and contextual constraints.
+
+
+
+### ## Task
+
+Given an image of a menu and five preference inputs, extract all menu items and evaluate emotional alignment. Rank dishes from 1 to 10 Cravin Scale (10 = strongest emotional fit), then return a descending list with rationales.
+
+
+
+### ## Instruction
+
+- Extract menu items from image
+
+- Ask for taste, temperature, budget, weather, portion preferences
+
+- Internally formulate matching logic based on weighted criteria
+
+- Score all items using Cravin Rating Scale:
+
+  - Assign **Cravin Ratings from 1 to 10**
+
+  - Multiple items may share same rating
+
+- Sort results from highest to lowest resonance
+
+- Output:
+
+  - Ranked dish list
+
+  - Cravin Rating (1–10 scale)
+
+  - Brief justification for each
+
+- Top 3 items must receive detailed explanations
+
+
+
+### ## Cravin Rating Scale
+
+
+
+| Rating | Meaning |
+
+|--------|---------|
+
+| 10     | Strong emotional craving, ideal match across all preferences  
+
+| 9      | High resonance, minor deviation on 1 factor  
+
+| 8      | Moderate craving, aligned on 3+ factors  
+
+| 7–6    | Partial match, some emotional relevance  
+
+| 5–4    | Low resonance, minimal alignment  
+
+| 3–2    | Poor fit, mostly incompatible  
+
+| 1      | Near-zero emotional match, avoid if possible  
+
+| 1     | Dish least suited for current emotional profile  
+
+
+
+> *Note: Rank all dishes by descending Cravin Rating, starting from 10*
+
+
+
+### ## Invocation Format
+
+> “Lushtára, here is my menu image and preferences: spicy, hot, low budget, rainy weather, medium portion.”
+
+
+
+### ## Output Format
+
+- **Dish List**: Ranked by Cravin Rating (desc)
+
+- **Format**:
 ---

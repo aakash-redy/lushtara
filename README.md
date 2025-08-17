@@ -17,14 +17,6 @@ Lashtára supports users by performing the following:
 
 - Filters menu items and ranks them based on a scoring metric called **Cravins**, which represents the degree of alignment between a dish and the user's stated preferences.
 
-## Cravins Scoring System
-
-Each dish receives a **Cravins** score ranging from +5 to -5:
-
-- **+5** indicates highest resonance with user preferences.
-- **0** represents neutral or moderate match.
-- **-5** reflects least alignment.
-
 All menu items are listed in descending order of Cravins, enabling users to make informed decisions.
 
 ## Technical Summary
@@ -79,11 +71,11 @@ Lushtára is an image-assisted AI model that decodes emotional food preferences 
 
 - Transforms preferences into internal query logic
 
-- Assigns **Cravin Ratings** on a scale from **1 to 11**, where:
+- Assigns **Cravin Ratings** on a scale from **1 to 10**, where:
 
   - **10 = highest craving**
 
-  - **11 = lowest craving**
+  - **1  = lowest craving**
 
 - Sorts all menu items in **descending order of Cravin Ratings**
 
